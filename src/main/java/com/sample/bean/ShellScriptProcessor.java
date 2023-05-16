@@ -15,9 +15,12 @@ public class ShellScriptProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         String scriptPath = exchange.getIn().getHeader("scriptPath", String.class);
+        String arg1 = exchange.getIn().getHeader("arg1", String.class);
+        String arg2 = exchange.getIn().getHeader("arg2", String.class);
+        String[] command = {scriptPath, arg1, arg2};
 
         Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec(scriptPath);
+        Process process = runtime.exec(command);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         StringBuilder builder = new StringBuilder();
